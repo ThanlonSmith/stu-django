@@ -127,7 +127,31 @@ def add_student(request):
 
 
 def edit_student(request):
-    return render  (request, 'edit_student.html')
+    if request.method == 'GET':
+        nid = request.GET.get('nid')
+        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor.execute("select id,title from class")
+        class_list = cursor.fetchall()
+        print(class_list)
+        cursor.execute("select id,name,class_id from student where id=%s", nid)
+        current_student_info = cursor.fetchone()
+        print(current_student_info)
+        cursor.close()
+        conn.close()
+        return render(request, 'edit_student.html',
+                      {'class_list': class_list, 'current_student_info': current_student_info})
+    else:
+        nid = request.GET.get('nid')
+        name = request.POST.get('name')
+        class_id = request.POST.get('class_id')
+        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor.execute("update student set name=%s,class_id=%s where id = %s", [name, class_id, nid])
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return redirect('/students/')
 
 
 def del_student(request):
