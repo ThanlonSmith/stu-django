@@ -26,7 +26,7 @@
                         <td>{{ row.id }}</td>
                         <td>{{ row.name }}</td>
                         <td>{{ row.title }}</td>
-                        <td><a href="/">编辑</a> <a href="">删除</a>
+                        <td><a href="/edit-student/?nid={{ row.id }}">编辑</a> <a href="/del-student/?nid={{ row.id }}">删除</a>
                         </td>
                     </tr>
                 {% endfor %}
