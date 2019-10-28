@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ba41caa-4e64-43bd-9671-1333d8110283" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/stu_sys.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/stu_sys.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app01/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app01/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stu_sys/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/stu_sys/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stu_sys/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/stu_sys/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stu_sys/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/stu_sys/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/add_class.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add_class.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/classes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/classes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/edit_class.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/edit_class.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,11 +31,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="39" />
-    <option name="width" value="1890" />
-    <option name="height" value="1020" />
-  </component>
   <component name="ProjectId" id="1S95livsdzV50whPtgcKzdcktlK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
@@ -57,7 +41,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -126,7 +110,15 @@
       <workItem from="1570963127045" duration="70000" />
       <workItem from="1570963206697" duration="105000" />
       <workItem from="1570963327424" duration="1833000" />
-      <workItem from="1570966029651" duration="630000" />
+      <workItem from="1570966029651" duration="1177000" />
+      <workItem from="1570967214645" duration="24000" />
+      <workItem from="1570971821310" duration="44000" />
+      <workItem from="1571038882872" duration="50000" />
+      <workItem from="1571045296318" duration="97000" />
+      <workItem from="1571814030131" duration="608000" />
+      <workItem from="1571839179261" duration="4057000" />
+      <workItem from="1571936149100" duration="11000" />
+      <workItem from="1572276346673" duration="4124000" />
     </task>
     <servers />
   </component>
