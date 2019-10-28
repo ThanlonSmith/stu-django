@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app01/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app01/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stu_sys/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/stu_sys/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/students.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/students.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +38,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -45,6 +46,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
       <recent name="E:\pycharmProjects\stu_sys\templates" />
     </key>
   </component>
@@ -118,7 +120,7 @@
       <workItem from="1571814030131" duration="608000" />
       <workItem from="1571839179261" duration="4057000" />
       <workItem from="1571936149100" duration="11000" />
-      <workItem from="1572276346673" duration="4124000" />
+      <workItem from="1572276346673" duration="7589000" />
     </task>
     <servers />
   </component>
