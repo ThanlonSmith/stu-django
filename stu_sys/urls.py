@@ -18,10 +18,12 @@ from django.urls import path
 from app01 import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),   path('classes/', views.classes),
+    path('admin/', admin.site.urls), path('classes/', views.classes),
     path('add-class/', views.add_class),
     path('del-class/', views.del_class),
     path('edit-class/', views.edit_class),
     path('students/', views.students),
     path('add-student/', views.add_student),
+    path('edit-student/', views.edit_student),
+    path('del-student/', views.del_student),
 ]

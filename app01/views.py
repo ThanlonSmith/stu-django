@@ -21,6 +21,11 @@ def classes(request):
 
 
 def add_class(request):
+    '''
+    添加班级信息
+    :param request:
+    :return:
+    '''
     if request.method == 'GET':
         return render(request, 'add_class.html')
     else:
@@ -36,6 +41,11 @@ def add_class(request):
 
 
 def del_class(request):
+    '''
+    删除班级信息
+    :param request:
+    :return:
+    '''
     nid = request.GET.get('nid')
     conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
@@ -47,6 +57,11 @@ def del_class(request):
 
 
 def edit_class(request):
+    '''
+    编辑班级信息
+    :param request:
+    :return:
+    '''
     if request.method == 'GET':
         nid = request.GET.get('nid')
         conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
@@ -86,6 +101,11 @@ def students(request):
 
 
 def add_student(request):
+    '''
+    添加学生信息
+    :param request:
+    :return:
+    '''
     if request.method == 'GET':
         conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
         cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
@@ -104,3 +124,23 @@ def add_student(request):
         cursor.close()
         conn.close()
         return redirect('/students/')
+
+
+def edit_student(request):
+    return render  (request, 'edit_student.html')
+
+
+def del_student(request):
+    '''
+    删除学生信息
+    :param request:
+    :return:
+    '''
+    nid = request.GET.get('nid')
+    conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+    cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+    cursor.execute('delete from student where id=%s', nid)
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect('/students/')
