@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 import pymysql
 
 
@@ -168,3 +168,26 @@ def del_student(request):
     cursor.close()
     conn.close()
     return redirect('/students/')
+
+
+# def add_class_modal(request):
+#     title = request.POST.get('title')
+#     conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+#     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+#     cursor.execute('insert into class (title) values (%s)', title)
+#     conn.commit()
+#     cursor.close()
+#     conn.close()
+#     return redirect('/classes/')
+def add_class_modal(request):
+    title = request.POST.get('title')
+    if len(title) > 0:
+        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor.execute('insert into class (title) values (%s)', title)
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('班级不能为空！')

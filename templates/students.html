@@ -12,8 +12,9 @@
 <body>
 <div class="container" style="margin-top: 20px">
     <div class="row">
-        <div class="col-md-4">
-            <a class="btn btn-default" href="/add-student/">添加</a></p>
+        <div class="col-md-4 col-md-offset-4">
+            <a class="btn btn-default" href="/add-student/">添加</a>
+            <button class="btn btn-primary" href="">添加</button>
             <table class="table table-hover text-center">
                 <tr>
                     <th class="text-center">ID</th>
@@ -26,7 +27,8 @@
                         <td>{{ row.id }}</td>
                         <td>{{ row.name }}</td>
                         <td>{{ row.title }}</td>
-                        <td><a href="/edit-student/?nid={{ row.id }}">编辑</a> <a href="/del-student/?nid={{ row.id }}">删除</a>
+                        <td><a href="/edit-student/?nid={{ row.id }}">编辑</a> <a
+                                href="/del-student/?nid={{ row.id }}">删除</a>
                         </td>
                     </tr>
                 {% endfor %}
