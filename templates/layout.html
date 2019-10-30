@@ -6,14 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>后台管理</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
     <style>
         .pg-header {
             height: 48px;
-            background-color: saddlebrown;
+            background-color: #dd4a39;
             line-height: 48px;
         }
 
@@ -23,7 +20,6 @@
             top: 48px;
             left: 0;
             bottom: 0;
-            background: darkorange;
         }
 
         .pg-content {
@@ -33,6 +29,7 @@
             right: 0;
             bottom: 0;
             overflow: auto;
+            background: #ecf0f5;
         }
     </style>
     {% block css %}{% endblock %}
@@ -45,24 +42,22 @@
     <div style="float: right;margin-right: 10px">
         <img src="/static/images/thanlon.jpg" style="height: 30px;width: 30px;border-radius: 50%" alt="">
     </div>
-    <div style="float: right"></div>
+    <div style="float: right">
+
+    </div>
     <div style="float: right">3</div>
     <div style="clear: both"></div>
 </div>
-<div class="pg-menu"></div>
+<div class="pg-menu">
+            <li>ddd</li>
+</div>
 <div class="pg-content">
     {% block content %}
 
     {% endblock %}
 </div>
 </body>
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+<script src="/static/js/jquery-3.4.1.js"></script>
+<script src="/static/plugins/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 {% block js %}{% endblock %}
 </html>
