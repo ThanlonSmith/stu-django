@@ -8,11 +8,11 @@ def classes(request):
     :param request:对象相关的数据
     :return:渲染后的模板
     '''
-    # 创建连接
+    ticket = request.COOKIES.get('ticket')
+    if not ticket:
+        return redirect('/login/')
     conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
-    # 创建游标
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-    # 执行sql语句
     cursor.execute("select id,title from class")
     classes_list = cursor.fetchall()
     cursor.close()
@@ -191,3 +191,24 @@ def add_class_modal(request):
         return HttpResponse('ok')
     else:
         return HttpResponse('班级不能为空！')
+
+
+def layout(request):
+    return render(request, 'layout.html')
+
+
+def login(request):
+    '''
+    登录
+    :param request:
+    :return:
+    '''
+    username = request.POST.get('username')
+    pwd = request.POST.get('pwd')
+    if request.method == 'POST':
+        if username == 'thanlon' and pwd == '123456':
+            obj = redirect('/classes/')
+            # obj.set_cookie('ticket', 'O2UikIFGGvHxcUQD7rIbgxedinIpEoMjStxoO579rgY8NeQM')
+            return obj
+    else:
+        return render(request, 'login.html')
