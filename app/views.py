@@ -8,7 +8,7 @@ def classes(request):
     :param request:对象相关的数据
     :return:渲染后的模板
     '''
-    ticket = request.COOKIES.get('ticket')
+    ticket = request.get_signed_cookie('ticket', salt='123456')
     if not ticket:
         return redirect('/login/')
     conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
@@ -193,10 +193,6 @@ def add_class_modal(request):
         return HttpResponse('班级不能为空！')
 
 
-def layout(request):
-    return render(request, 'layout.html')
-
-
 def login(request):
     '''
     登录
@@ -208,7 +204,7 @@ def login(request):
     if request.method == 'POST':
         if username == 'thanlon' and pwd == '123456':
             obj = redirect('/classes/')
-            # obj.set_cookie('ticket', 'O2UikIFGGvHxcUQD7rIbgxedinIpEoMjStxoO579rgY8NeQM')
+            obj.set_signed_cookie('ticket', 'thanlon', salt='123456')
             return obj
     else:
         return render(request, 'login.html')
