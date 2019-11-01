@@ -1,10 +1,6 @@
 {% extends 'layout.html' %}
 {% block css %}
     <style>
-        .hide {
-            display: none;
-        }
-
         .shadow {
             position: fixed;
             top: 0;
@@ -30,67 +26,67 @@
     </style>
 {% endblock %}
 {% block content %}
-        <ol class="breadcrumb">
-            <li><a href="#">班级管理</a></li>
-            <li class="active">添加班级信息</li>
-        </ol>
-        <div class="col-md-12">
-            <a class="btn btn-default " id="addClasses" style="margin-bottom:5px;background: #dd4a39;color: white">添加</a>
-            <div class="shadow hide" id="shadow"></div>
-            <div class="modal_layer hide" id="modal_layer">
-                <div class="panel panel-danger">
-                    <div class="panel-heading" style="font-weight: bold" >添加班级信息</div>
-                    <div class="panel-body">
-                        <form action="/add-class-modal/" method="post">
-                            <div class="form-group">
-                                <label for="">班级名称</label>
-                                <input type="text" name="title" class="form-control" id="title" placeholder=""
-                                       autofocus>
-                                <span id="error" style="color: red"></span>
-                            </div>
-                            <input type="button" class="btn btn-danger" value="添加" id="add_class">
-                        </form>
-                    </div>
+    <ol class="breadcrumb">
+        <li class="active">班级管理</li>
+        {#            <li class="active">添加班级信息</li>#}
+    </ol>
+    <div class="col-md-12">
+        <a class="btn btn-default " id="addClasses" style="margin-bottom:5px;background: #f2dede;">添加</a>
+        <div class="shadow hide" id="shadow"></div>
+        <div class="modal_layer hide" id="modal_layer">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">添加班级信息</div>
+                <div class="panel-body">
+                    <form action="/add-class-modal/" method="post">
+                        <div class="form-group">
+                            <label for="">班级名称</label>
+                            <input type="text" name="title" class="form-control" id="title" placeholder=""
+                                   autofocus>
+                            <span id="error" style="color: red"></span>
+                        </div>
+                        <input type="button" class="btn" value="添加" id="add_class" style="background: #f2dede;">
+                    </form>
                 </div>
             </div>
-            <table class="table table-bordered text-center" style="background: white">
-                <tr>
-                    <th class="text-center">id</th>
-                    <th class="text-center">班级名称</th>
-                    <th class="text-center">操作</th>
-                </tr>
-                {% for row in classes_list %}
-                    <tr>
-                        <td>{{ row.id }}</td>
-                        <td>{{ row.title }}</td>
-                        <td>
-                            <a href="/edit-class/?nid={{ row.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <a
-                                    href="/del-class/?nid={{ row.id }}"><span class="glyphicon glyphicon-trash"></span></a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
+        <table class="table table-bordered text-center  table-hover" style="background: white;margin-bottom: 0">
+            <tr>
+                <th class="text-center">id</th>
+                <th class="text-center">班级名称</th>
+                <th class="text-center">操作</th>
+            </tr>
+            {% for row in classes_list %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>
+                        <a href="/edit-class/?nid={{ row.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a
+                                href="/del-class/?nid={{ row.id }}"><span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
 {% block js %}
     <script>
@@ -113,7 +109,7 @@
                         //当服务端处理完，返回数据时，自动调用该函数
                         {#console.log(data)#}
                         if (data == 'ok') {
-                            alert('添加成功！');
+                            {#alert('添加成功！');#}
                             location.href = '/classes/';
                         } else {
                             $('#error').text(data);
