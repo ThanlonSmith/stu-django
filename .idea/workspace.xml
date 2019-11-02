@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6ba41caa-4e64-43bd-9671-1333d8110283" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/thanlon.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stu_sys/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/stu_sys/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/add_class.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/classes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/classes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,8 +21,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -63,7 +63,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.classes.html">
+    <configuration name="classes.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/stu_sys/templates/classes.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="stu_sys" type="Python.DjangoServer" factoryName="Django server">
       <module name="stu_sys" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -88,6 +91,11 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.classes.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -126,6 +134,9 @@
       <workItem from="1572406440599" duration="1795000" />
       <workItem from="1572414569009" duration="17827000" />
       <workItem from="1572498244074" duration="19068000" />
+      <workItem from="1572593918421" duration="40000" />
+      <workItem from="1572632024820" duration="739000" />
+      <workItem from="1572674468300" duration="8517000" />
     </task>
     <servers />
   </component>
