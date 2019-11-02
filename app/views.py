@@ -58,7 +58,6 @@ def edit_class(request):
     :param request:
     :return:
     '''
-
     class_id = request.GET.get('class_id')
     class_title = request.GET.get('class_title')
     print(class_id, class_title)
@@ -80,14 +79,14 @@ def del_class(request):
     :param request:
     :return:
     '''
-    nid = request.GET.get('nid')
+    class_id = request.GET.get('class_id')
     conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-    cursor.execute('delete from class where id=%s', nid)
+    cursor.execute('delete from class where id=%s', class_id)
     conn.commit()
     cursor.close()
     conn.close()
-    return redirect('/classes/')
+    return HttpResponse('ok')
 
 
 def students(request):

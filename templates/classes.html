@@ -89,7 +89,8 @@
                     <td>
                         <a href="javascript:"
                            style="font-weight: bold" onclick="edit_class_modal(this);">编辑</a>
-                        <a href="javascript:" style="font-weight: bold" onclick="del_class_modal(this)">删除</a>
+                        <a href="javascript:" style="font-weight: bold" class="del_class"
+                           onclick="del_class(this)">删除</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -170,7 +171,7 @@
                         }
                     }
                 })
-            })
+            });
         });
 
         function edit_class_modal(ths) {
@@ -184,6 +185,26 @@
             content_id = $(row[1]).text();
             $('#edit_title').val(content_title);
             $('#edit_id').val(content_id);
+        }
+
+        function del_class(ths) {
+            var row = $(ths).parent().prevAll();
+            {#console.log($(row[0]).text());#}
+            {#console.log($(row[1]).text());#}
+            class_id = $(row[1]).text();
+            {#alert(class_id);#}
+            $.ajax({
+                url: '/del-class/',
+                type: 'get',
+                data: {'class_id': class_id},
+                success: function (data) {
+                    if (data == 'ok') {
+                        location.href = '/classes/'
+                    } else {
+                        alert('删除失败！')
+                    }
+                }
+            })
         }
     </script>
 {% endblock %}
