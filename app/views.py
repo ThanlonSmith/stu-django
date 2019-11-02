@@ -20,24 +20,58 @@ def classes(request):
     return render(request, 'classes.html', {'classes_list': classes_list})
 
 
+# def add_class(request):
+#     '''
+#     添加班级信息
+#     :param request:
+#     :return:
+#     '''
+#     if request.method == 'GET':
+#         return render(request, 'add_class.html')
+#     else:
+#         class_title = request.POST.get('class_title')
+#         conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+#         cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+#         # cursor.execute("insert into class(title) values(%s)", [class_title, ])
+#         cursor.execute('insert into class(title) values(%s)', class_title)
+#         conn.commit()
+#         cursor.close()
+#         conn.close()
+#         return redirect('/classes/')
 def add_class(request):
-    '''
-    添加班级信息
-    :param request:
-    :return:
-    '''
-    if request.method == 'GET':
-        return render(request, 'add_class.html')
-    else:
-        class_title = request.POST.get('class_title')
+    title = request.POST.get('title')
+    if len(title) > 0:
         conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
         cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-        # cursor.execute("insert into class(title) values(%s)", [class_title, ])
-        cursor.execute('insert into class(title) values(%s)', class_title)
+        cursor.execute('insert into class (title) values (%s)', title)
         conn.commit()
         cursor.close()
         conn.close()
-        return redirect('/classes/')
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('班级不能为空！')
+
+
+def edit_class(request):
+    '''
+    编辑班级信息
+    :param request:
+    :return:
+    '''
+
+    class_id = request.GET.get('class_id')
+    class_title = request.GET.get('class_title')
+    print(class_id, class_title)
+    if len(class_title) > 0:
+        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
+        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+        cursor.execute('update class set title=%s where id = %s', [class_title, class_id])
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('班级不能为空！')
 
 
 def del_class(request):
@@ -54,34 +88,6 @@ def del_class(request):
     cursor.close()
     conn.close()
     return redirect('/classes/')
-
-
-def edit_class(request):
-    '''
-    编辑班级信息
-    :param request:
-    :return:
-    '''
-    if request.method == 'GET':
-        nid = request.GET.get('nid')
-        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
-        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-        cursor.execute('select id,title from class where id=%s', nid)
-        result = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return render(request, 'edit_class.html', {'result': result})
-    else:
-        # nid = request.POST.get('nid')  # 放到请求体
-        nid = request.GET.get('nid')  # 放到请求头
-        title = request.POST.get('title')
-        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
-        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-        cursor.execute('update class set title=%s where id = %s', [title, nid])
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return redirect('/classes/')
 
 
 def students(request):
@@ -179,18 +185,6 @@ def del_student(request):
 #     cursor.close()
 #     conn.close()
 #     return redirect('/classes/')
-def add_class_modal(request):
-    title = request.POST.get('title')
-    if len(title) > 0:
-        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
-        cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-        cursor.execute('insert into class (title) values (%s)', title)
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return HttpResponse('ok')
-    else:
-        return HttpResponse('班级不能为空！')
 
 
 def login(request):

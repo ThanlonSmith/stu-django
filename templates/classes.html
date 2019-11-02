@@ -33,11 +33,15 @@
     <div class="col-md-12">
         <a class="btn btn-default " id="addClasses" style="margin-bottom:5px;background: #f2dede;">添加</a>
         <div class="shadow hide" id="shadow"></div>
+        <!--添加班级信息模态框-->
         <div class="modal_layer hide" id="modal_layer">
             <div class="panel panel-danger">
-                <div class="panel-heading" style="font-weight: bold">添加班级信息</div>
+                <div class="panel-heading" style="font-weight: bold">添加班级信息
+                    <button type="button" class="close" id="close_add_modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="panel-body">
-                    <form action="/add-class-modal/" method="post">
+                    <form>
                         <div class="form-group">
                             <label for="">班级名称</label>
                             <input type="text" name="title" class="form-control" id="title" placeholder=""
@@ -49,6 +53,29 @@
                 </div>
             </div>
         </div>
+        <!--添加班级信息模态框-->
+        <!--编辑班级信息模态框-->
+        <div class="modal_layer hide" id="modal_edit">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">编辑班级信息
+                    <button type="button" class="close" id="close_edit_modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label>班级名称：</label>
+                            <input type="text" name="title" class="form-control" id="edit_title">
+                            <input type="text" name="title" class="form-control" id="edit_id" style="display: none">
+                            <span id="edit_error" style="color: red"></span>
+                        </div>
+                        <input type="button" class="btn" value="修改" id="edit_class" style="background: #f2dede;">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--编辑班级信息模态框-->
+        <!--班级信息展示-->
         <table class="table table-bordered text-center  table-hover" style="background: white;margin-bottom: 0">
             <tr>
                 <th class="text-center">id</th>
@@ -60,13 +87,14 @@
                     <td>{{ row.id }}</td>
                     <td>{{ row.title }}</td>
                     <td>
-                        <a href="/edit-class/?nid={{ row.id }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <a
-                                href="/del-class/?nid={{ row.id }}"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="javascript:"
+                           style="font-weight: bold" onclick="edit_class_modal(this);">编辑</a>
+                        <a href="javascript:" style="font-weight: bold" onclick="del_class_modal(this)">删除</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--班级信息展示-->
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <li>
@@ -98,11 +126,12 @@
             $('#shadow').click(function () {
                 $('#shadow').addClass('hide');
                 $('#modal_layer').addClass('hide');
+                $('#modal_edit').addClass('hide');
             });
             $('#add_class').click(function () {
                 {#alert(11);#}
                 $.ajax({
-                    url: '/add-class-modal/',
+                    url: '/add-class/',
                     type: 'POST',
                     data: {'title': $('#title').val()},
                     success: function (data) {
@@ -117,7 +146,45 @@
                     }
                 })
             });
-        })
+            $('#close_edit_modal').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_edit').addClass('hide');
+            });
+            $('#close_add_modal').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_layer').addClass('hide');
+            });
+            $('#edit_class').click(function () {
+                $.ajax({
+                    url: '/edit-class/',
+                    type: 'GET',
+                    data: {
+                        'class_id': $('#edit_id').val(),
+                        'class_title': $('#edit_title').val()
+                    },
+                    success: function (data) {
+                        if (data == 'ok') {
+                            location.href = '/classes/'
+                        } else {
+                            $('#edit_error').text(data);
+                        }
+                    }
+                })
+            })
+        });
+
+        function edit_class_modal(ths) {
+            {#alert(123);#}
+            $('#shadow').removeClass('hide');
+            $('#modal_edit').removeClass('hide');
+            var row = $(ths).parent().prevAll();
+            {#console.log(v[0])#}
+            console.log($(row[0]).text());
+            content_title = $(row[0]).text();
+            content_id = $(row[1]).text();
+            $('#edit_title').val(content_title);
+            $('#edit_id').val(content_id);
+        }
     </script>
 {% endblock %}
 </html>
