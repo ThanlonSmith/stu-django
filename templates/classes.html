@@ -84,8 +84,8 @@
             </tr>
             {% for row in classes_list %}
                 <tr>
-                    <td>{{ row.id }}</td>
-                    <td>{{ row.title }}</td>
+                    <td>{{ row.cid }}</td>
+                    <td>{{ row.caption }}</td>
                     <td>
                         <a href="javascript:"
                            style="font-weight: bold" onclick="edit_class_modal(this);">编辑</a>
@@ -208,4 +208,3 @@
         }
     </script>
 {% endblock %}
-</html>

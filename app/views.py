@@ -13,7 +13,7 @@ def classes(request):
         return redirect('/login/')
     conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='test')
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
-    cursor.execute("select id,title from class")
+    cursor.execute("select cid,caption from class")
     classes_list = cursor.fetchall()
     cursor.close()
     conn.close()
