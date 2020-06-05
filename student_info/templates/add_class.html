@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block css %}{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        <li class="active">班级管理</li>
+        <li class="active">添加班级</li>
+    </ol>
+    <div class="col-md-12">
+        <form action="/user/add_class/" method="post">
+            <label>班级名称：</label>
+            <input type="text" name="class_title">
+            <input type="submit" value="提交">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block css %}{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        <li class="active">班级管理</li>
+        <li class="active">添加班级</li>
+    </ol>
+    <div class="col-md-12">
+        <form action="/user/edit_class/?nid={{ result.id }}" method="post">
+            <label>班级名称：</label>
+            {#    <input type="text"style="display: none" value="{{ result.id }}">#}
+            <input type="text" name="title" value="{{ result.title }}">
+            <input type="submit" value="提交">
+        </form>
+    </div>
+{% endblock %}

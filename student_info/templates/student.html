@@ -1,0 +1,238 @@
+{% extends "layout.html" %}
+{% block css %}
+    <style>
+        .shadow {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: black;
+            opacity: 0.4;
+            z-index: 999;
+        }
+
+        .modal_layer {
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            background-color: white;
+            width: 400px;
+            height: 150px;
+            margin-top: -150px;
+            margin-left: -200px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        <li class="active">学生管理</li>
+        {#            <li class="active">添加班级信息</li>#}
+    </ol>
+    <div class="col-md-12">
+        <a class="btn btn-default " style="margin-bottom:5px;background: #f2dede;" href="/user/add_student/">添加(1)</a>
+        <a class="btn btn-default " style="margin-bottom:5px;background: #f2dede;" href="javascript:;"
+           id="add_student_modal">添加(2)</a>
+        <div class="shadow hide" id="shadow"></div>
+        <!--学生信息展示-->
+        <table class="table table-hover text-center" style="background: white;margin-bottom: 0">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">学生姓名</th>
+                <th class="text-center">学生班级</th>
+                <th class="text-center">操作</th>
+            </tr>
+            {% for row in posts.object_list %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.name }}</td>
+                    <td cls_id="{{ row.class_id }}">{{ row.title }}</td>
+                    {#                    <td>{{ row.class_id }}</td>#}
+                    <td>
+                        <a href="/user/edit_student/?nid={{ row.id }}">编辑(1)</a>
+                        <a href="javascript:;" onclick="edit_student(this)">编辑(2)</a>
+                        <a href="/user/del_student/?nid={{ row.id }}">删除(1)</a>
+                        <a href="javascript:;" onclick="del_student(this)">删除(2)</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <!--分页-->
+        <nav aria-label="Page navigation" class="text-left">
+            <ul class="pagination">
+                {% if posts.has_previous %}
+                    <li>
+                        {#                        <a href="/user/student?page={{ posts.previous_page_number }}">上一页</a>#}
+                        <a href="{% url 'student' %}?page={{ posts.previous_page_number }}">上一页</a>
+                    </li>
+                {% endif %}
+                {% if posts.has_next %}
+                    <li>
+                        {#                        <a href="/user/student?page={{ posts.next_page_number }}">下一页</a>#}
+                        <a href="{% url 'student' %}?page={{ posts.next_page_number }}">下一页</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!--/学生信息展示-->
+        <!--添加学生信息模态框-->
+        <div class="modal_layer hide" id="modal_add_student">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">添加学生信息
+                    <button type="button" class="close" id="close_add_modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">姓名</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder=""
+                                   autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="">班级</label>
+                            <select id="class_id" class="form-control" name="class_title">
+                                {% for row in class_list %}
+                                    <option value="{{ row.id }}">{{ row.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="add_student_error" style="color: red;margin-bottom: 5px"></div>
+                        <input type="button" class="btn" value="添加" id="add_student" style="background: #f2dede;">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--添加学生信息模态框-->
+        <!--编辑学生信息模态框-->
+        <div class="modal_layer hide" id="modal_edit_student">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">编辑班级信息
+                    <button type="button" class="close" id="close_edit_modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label>学生姓名：</label>
+                            <input type="text" name="student_name" class="form-control" id="student_name">
+                            <input type="text" name="" id="student_id" style="display: none">
+                        </div>
+                        <div class="form-group">
+                            <label>学生班级：</label>
+                            <select id="class_id_edit" class="form-control" name="class_title">
+                                {% for row in class_list %}
+                                    <option value="{{ row.id }}">{{ row.title }}</option>
+                                {% endfor %}
+                            </select>
+                            <span id="edit_error" style="color: red"></span>
+                        </div>
+                        <input type="button" class="btn" value="修改" id="edit_student" style="background: #f2dede;">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--编辑班级信息模态框-->
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            $("#add_student_modal").click(function () {
+                $('#shadow').removeClass('hide');
+                $('#modal_add_student').removeClass('hide');
+            });
+            $('#shadow').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_add_student').addClass('hide');
+                $('#modal_edit_student').addClass('hide');
+            });
+            $('#close_add_modal').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_add_student').addClass('hide');
+            });
+            $('#close_edit_modal').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_edit_student').addClass('hide');
+            });
+            //添加学生信息
+            $('#add_student').click(function () {
+                $.ajax({
+                    url: '/user/add_student_modal/',
+                    type: 'POST',
+                    data: {
+                        'name': $('#name').val(),
+                        'class_id': $('#class_id').val()
+                    },
+                    success: function (data) {
+                        data = JSON.parse(data) //把后台传过来的字符串转换成js中的对象
+                        if (data.status) {
+                            location.href = '/user/student/'
+                        } else {
+                            $('#add_student_error').text(data.msg);
+                        }
+                    }
+                });
+            });
+            //修改班级信息
+            $('#edit_student').click(function () {
+                $.ajax({
+                    url: '/user/edit_student_modal/',
+                    type: 'POST',
+                    data: {
+                        'student_id': $('#student_id').val(),
+                        'student_name': $('#student_name').val(),
+                        'class_id_edit': $('#class_id_edit').val(),
+                    },
+                    success: function (data) {
+                        data = JSON.parse(data);
+                        if (data.status) {
+                            location.reload()
+                        } else {
+                            $('#edit_error').text(data.msg);
+                        }
+                    }
+                })
+            })
+        })
+
+        function edit_student(ths) {
+            //编辑学生信息前的操作
+            $('#shadow').removeClass('hide');
+            $('#modal_edit_student').removeClass('hide');
+            var row = $(ths).parent().prevAll();
+            //学生ID
+            student_id = $(row[2]).text();
+            //学生姓名
+            student_name = $(row[1]).text();
+            //班级id
+            class_id_edit = $(row[0]).attr('cls_id');
+            $('#student_name').val(student_name);
+            //id不能重复，如果重复，哪个在前找哪个
+            $('#class_id_edit').val(class_id_edit);
+            $('#student_id').val(student_id);
+        }
+
+        //删除学生
+        function del_student(ths) {
+            var row = $(ths).parent().prevAll();
+            student_id = $(row[2]).text();
+            $.ajax({
+                url: '/user/del_student_modal/',
+                type: 'GET',
+                data: {
+                    'student_id': student_id
+                },
+                success: function (data) {
+                    data = JSON.parse(data);
+                    if (data.status) {
+                        location.reload()
+                    } else {
+                        alert('删除失败！');
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock %}

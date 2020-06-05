@@ -1,0 +1,210 @@
+{% extends 'layout.html' %}
+{% block css %}
+    <style>
+        .shadow {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: black;
+            opacity: 0.4;
+            z-index: 999;
+        }
+
+        .modal_layer {
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            background-color: white;
+            width: 400px;
+            height: 150px;
+            margin-top: -150px;
+            margin-left: -200px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        <li class="active">班级管理</li>
+        {#            <li class="active">添加班级信息</li>#}
+    </ol>
+    <div class="col-md-12">
+        <a class="btn btn-default " href="/user/add_class/" style="margin-bottom:5px;background: #f2dede;">添加(1)</a>
+        <a class="btn btn-default " id="addClasses" style="margin-bottom:5px;background: #f2dede;">添加(2)</a>
+        <div class="shadow hide" id="shadow"></div>
+        <!--添加班级信息模态框-->
+        <div class="modal_layer hide" id="modal_layer">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">添加班级信息
+                    <button type="button" class="close" id="close_add_modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="">班级名称</label>
+                            <input type="text" name="title" class="form-control" id="class_title" placeholder=""
+                                   autofocus>
+                            <span id="error" style="color: red"></span>
+                        </div>
+                        <input type="button" class="btn" value="添加" id="add_class" style="background: #f2dede;">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--添加班级信息模态框-->
+        <!--编辑班级信息模态框-->
+        <div class="modal_layer hide" id="modal_edit">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">编辑班级信息
+                    <button type="button" class="close" id="close_edit_modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label>班级名称：</label>
+                            <input type="text" name="title" class="form-control" id="edit_title">
+                            <input type="text" name="title" class="form-control" id="edit_id" style="display: none">
+                            <span id="edit_error" style="color: red"></span>
+                        </div>
+                        <input type="button" class="btn" value="修改" id="edit_class" style="background: #f2dede;">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--编辑班级信息模态框-->
+        <!--班级信息展示-->
+        <table class="table table-bordered text-center  table-hover" style="background: white;margin-bottom: 0">
+            <tr>
+                <th class="text-center">id</th>
+                <th class="text-center">班级名称</th>
+                <th class="text-center">操作</th>
+            </tr>
+            {% for row in class_list %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.title }}</td>
+                    <td>
+                        <a href="/user/edit_class/?nid={{ row.id }}"
+                           style="font-weight: bold">编辑(1)</a>
+                        <a href="javascript:;"
+                           style="font-weight: bold" onclick="edit_class_modal(this)">编辑(2)</a>
+                        <a href="/user/del_class/?nid={{ row.id }}" style="font-weight: bold">删除(1)</a>
+                        <a href="javascript:" style="font-weight: bold" onclick="del_class(this)">删除(2)</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <!--班级信息展示-->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            //添加和编辑班级通用
+            $('#shadow').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_layer').addClass('hide');
+                $('#modal_edit').addClass('hide');
+            });
+            //添加班级
+            $('#addClasses').click(function () {
+                $('#shadow').removeClass('hide');
+                $('#modal_layer').removeClass('hide');
+            });
+            $('#add_class').click(function () {
+                $.ajax({
+                    url: '/user/add_class_modal/',
+                    type: 'POST',
+                    data: {'title': $('#class_title').val()},
+                    success: function (data) {
+                        //当服务端处理完，返回数据时，自动调用该函数
+                        {#console.log(data)#}
+                        if (data == 'ok') {
+                            {#alert('添加成功！');#}
+                            location.href = '/user/class/';
+                        } else {
+                            $('#error').text(data);
+                        }
+                    }
+                })
+            });
+            $('#close_add_modal').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_layer').addClass('hide');
+            });
+            $('#edit_class').click(function () {
+                $.ajax({
+                    url: '/user/edit_class_modal/',
+                    type: 'GET',
+                    data: {
+                        'class_id': $('#edit_id').val(),
+                        'class_title': $('#edit_title').val()
+                    },
+                    success: function (data) {
+                        if (data == 'ok') {
+                            location.href = '/user/class/'
+                        } else {
+                            $('#edit_error').text(data);
+                        }
+                    }
+                })
+            });
+            $('#close_edit_modal').click(function () {
+                $('#shadow').addClass('hide');
+                $('#modal_edit').addClass('hide');
+            });
+        });
+
+        //编辑班级
+        function edit_class_modal(ths) {
+            $('#shadow').removeClass('hide');
+            $('#modal_edit').removeClass('hide');
+            var row = $(ths).parent().prevAll();
+            content_title = $(row[0]).text();
+            content_id = $(row[1]).text();
+            $('#edit_title').val(content_title);
+            $('#edit_id').val(content_id);
+        }
+
+        //删除班级
+        function del_class(ths) {
+            var row = $(ths).parent().prevAll();
+            class_id = $(row[1]).text();
+            $.ajax({
+                url: '/user/del_class_modal/',
+                type: 'get',
+                data: {'class_id': class_id},
+                success: function (data) {
+                    if (data == 'ok') {
+                        location.href = '/user/class/'
+                    } else {
+                        alert('删除失败！');
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock %}
