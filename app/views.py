@@ -555,6 +555,11 @@ def edit_teacher(request):
 
 
 def add_teacher_modal(request):
+    """
+    AJAX的方式添加教师信息
+    :param request:
+    :return:
+    """
     if request.method == 'GET':
         obj = sqlhelper.SqlHelper()
         class_list = obj.get_list('select id,title from class', [])
@@ -586,6 +591,11 @@ def add_teacher_modal(request):
 
 
 def del_teacher_modal(request):
+    """
+    AJAX的方式删除教师信息
+    :param request:
+    :return:
+    """
     if request.method == 'GET':
         ret = {'status': True, 'msg': None}
         try:
