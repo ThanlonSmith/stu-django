@@ -489,6 +489,7 @@ def teacher(request):
     {'tid': 2, 'name': '李晓', 'title': '软件工程'}
     ]
     """
+
     result = {}
     for row in teacher_list:
         tid = row['tid']
@@ -503,7 +504,7 @@ def teacher(request):
         2: {'tid': 2, 'name': '李晓', 'titles': ['网络工程', '软件工程']}
     }
     """
-    return render(request, 'teacher.html', {'teacher_list': result.values()})
+    return render(request, 'teacher.html', {'teacher_list': result.values(), })
 
 
 def edit_teacher(request):
@@ -551,3 +552,34 @@ def edit_teacher(request):
             func(nid, class_id)
         obj.multiple_modify('insert into teacher2class(teacher_id,class_id) values (%s,%s)', data_list)
         return redirect('/user/teacher/')
+
+
+def add_teacher_modal(request):
+    if request.method == 'GET':
+        obj = sqlhelper.SqlHelper()
+        class_list = obj.get_list('select id,title from class', [])
+        import time
+        # 这里是用来模拟用户网站压力比较大的情况下
+        time.sleep(0.2)
+        obj.close()
+        return HttpResponse(json.dumps(class_list))
+    if request.method == 'POST':
+        ret = {'status': True, 'msg': None}
+        # 一般ajax请求要加上try
+        try:
+            name = request.POST.get('name')
+            class_ids = request.POST.getlist('class_ids')  # ['1', '8', '9', '10']
+            # print(name,class_ids) #奈何 ['9', '10']
+            obj = sqlhelper.SqlHelper()
+            teacher_id = obj.create('insert into teacher(name) values (%s) ', [name, ])
+            data_list = []
+            func = lambda item: data_list.append((teacher_id, item))
+            for item in class_ids:
+                func(item)
+            # print(data_list)  # [(8, '8'), (8, '10')]
+            obj.multiple_modify('insert teacher2class(teacher_id,class_id) values(%s,%s)', data_list)
+            obj.close()
+        except Exception as e:
+            ret['status'] = False
+            ret['msg'] = '处理失败!'
+        return HttpResponse(json.dumps(ret))

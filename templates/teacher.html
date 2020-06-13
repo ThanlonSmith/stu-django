@@ -1,12 +1,52 @@
 {% extends "layout.html" %}
 {% block css %}
+    <style>
+        .shadow {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: black;
+            opacity: 0.4;
+            z-index: 999;
+        }
+
+        .modal_layer {
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            background-color: white;
+            width: 400px;
+            height: 150px;
+            margin-top: -150px;
+            margin-left: -200px;
+        }
+
+        .loading {
+            position: fixed;
+            z-index: 1001;
+            left: 50%;
+            top: 50%;
+            background: url("/static/images/loading.gif") no-repeat;
+            width: 66px;
+            height: 66px;
+            margin-top: -33px;
+            margin-left: -33px;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <ol class="breadcrumb">
         <li class="active">教师管理</li>
     </ol>
     <div class="col-md-12">
-        <a class="btn btn-default " style="margin-bottom:5px;background: #f2dede;" href="/user/add_teacher/">添加</a>
+        <a class="btn btn-default " style="margin-bottom:5px;background: #f2dede;" href="/user/add_teacher/">添加(1)</a>
+        <a class="btn btn-default " style="margin-bottom:5px;background: #f2dede;" href="javascript:;"
+           id="addBtn">添加(2)</a>
+        <div class="shadow hide" id="shadow"></div>
+        <div class="loading hide" id="loading"></div>
         <table class="table table-hover text-center" style="background: white;margin-bottom: 0">
             <tr>
                 <th class="text-center">ID</th>
@@ -25,12 +65,114 @@
                     </td>
                     <td>
                         <a href="/user/edit_teacher/?nid={{ row.tid }}">编辑</a>
-                        <a href="/user/del_teacher/?nid={{ row.tid }}">删除</a>
+                        <a href="javascript:;" class="del_teacher">删除</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--添加教师信息模态框-->
+        <div class="modal_layer hide" id="modal_add_teacher">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="font-weight: bold">添加学生信息
+                    <button type="button" class="close" id="close_btn"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label>教师姓名：</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入教师的姓名" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label>任教班级：</label>
+                            <select multiple class="form-control" name="class_ids" id="class_ids">
+                                {% for row in class_list %}
+                                    <option value="{{ row.id }}">{{ row.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!--这里不要用submit-->
+                        <div id="add_teacher_error"></div>
+                        <button type="button" class="btn btn-primary" id="addTeacherBtn">添加</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--添加教师信息模态框-->
     </div>
 {% endblock %}
 {% block js %}
+    <script>
+        $(function () {
+            addBtn();
+            shadow_btn();
+            close_btn();
+            add_teacher_modal();
+        })
+
+        function shadow_btn() {
+            $('#shadow').click(function () {
+                $('#shadow,#modal_add_teacher').addClass('hide');
+            });
+        }
+
+        function close_btn() {
+            $('#close_btn').click(function () {
+                $('#shadow,#modal_add_teacher').addClass('hide');
+            });
+        }
+
+        //点击按钮之后如果数据没有拿到就不断动画加载
+        function addBtn() {
+            $('#addBtn').click(function () {
+                $('#shadow').removeClass('hide');
+                $('#loading').removeClass('hide');
+                $.ajax({
+                    url: '/user/add_teacher_modal/',
+                    type: 'get',
+                    dataType: 'json',//拿到的是对象
+                    success: function (arg) {
+                        //alert(arg)//[object Object],[object Object],[object Object],[object Object]
+                        $('#class_ids').html('') //保证上一次的标签内容不会留存再页面上
+                        $.each(arg, function (i, row) {
+                            var tag = $("<option></option>").html(row.title);
+                            tag.attr('value', row.id)
+                            $('#class_ids').append(tag)
+                        })
+                        $('#loading').addClass('hide');
+                        $('#modal_add_teacher').removeClass('hide');
+                    }
+                })
+            })
+        }
+
+        //Ajax添加教师信息
+        function add_teacher_modal() {
+            $('#addTeacherBtn').click(function () {
+                var name = $('#name').val();
+                var class_ids = $('#class_ids').val();//['9', '10']
+                $.ajax({
+                    url: '/user/add_teacher_modal/',
+                    type: 'POST',
+                    data: {'name': name, 'class_ids': class_ids},
+                    traditional: true,//如果提交的数据有列表，需要添加这个属性
+                    dataType: 'json', //如果后台返回的是json格式的数据则这里必须写上json，大小写忽略
+                    success: function (arg) {
+                        if (arg.status) {
+                            location.reload();
+                        } else {
+                            $('#add_teacher_error').text(arg.msg);
+                        }
+                    }
+                })
+            })
+        }
+
+        //Ajax删除教师信息
+        function del_teacher_modal(ths) {
+            $(".del_teacher").click(function () {
+
+            })
+        }
+    </script>
 {% endblock %}
