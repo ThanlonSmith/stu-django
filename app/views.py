@@ -583,3 +583,18 @@ def add_teacher_modal(request):
             ret['status'] = False
             ret['msg'] = '处理失败!'
         return HttpResponse(json.dumps(ret))
+
+
+def del_teacher_modal(request):
+    if request.method == 'GET':
+        ret = {'status': True, 'msg': None}
+        try:
+            obj = sqlhelper.SqlHelper()
+            tid = request.GET.get('teacher_id')
+            obj.modify('delete from teacher where id =%s', [tid])
+            obj.modify('delete from teacher2class where teacher_id = %s', [tid])
+            obj.close()
+        except Exception as e:
+            ret['status'] = False
+            ret['msg'] = "删除失败！"
+        return HttpResponse(json.dumps(ret))

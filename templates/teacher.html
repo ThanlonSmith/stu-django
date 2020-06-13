@@ -65,7 +65,7 @@
                     </td>
                     <td>
                         <a href="/user/edit_teacher/?nid={{ row.tid }}">编辑</a>
-                        <a href="javascript:;" class="del_teacher">删除</a>
+                        <a href="javascript:;" class="del_teacher" onclick="del_teacher_modal(this)">删除</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -170,9 +170,24 @@
 
         //Ajax删除教师信息
         function del_teacher_modal(ths) {
-            $(".del_teacher").click(function () {
-
-            })
+            falg = confirm('确定要删除？')
+            if (falg) {
+                var row = $(ths).parent().prevAll();
+                teacher_id = $(row[2]).text();
+                $.ajax({
+                    url: '/user/del_teacher_modal/',
+                    type: 'get',
+                    data: {'teacher_id': teacher_id},
+                    dataType: 'json',
+                    success: function (arg) {
+                        if (arg.status) {
+                            location.reload()
+                        } else {
+                            alert(arg.msg)
+                        }
+                    }
+                })
+            }
         }
     </script>
 {% endblock %}
