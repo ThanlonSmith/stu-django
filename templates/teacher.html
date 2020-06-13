@@ -10,10 +10,25 @@
         <table class="table table-hover text-center" style="background: white;margin-bottom: 0">
             <tr>
                 <th class="text-center">ID</th>
-                <th class="text-center">学生姓名</th>
-                <th class="text-center">学生班级</th>
+                <th class="text-center">教师姓名</th>
+                <th class="text-center">任教班级</th>
                 <th class="text-center">操作</th>
             </tr>
+            {% for row in teacher_list %}
+                <tr>
+                    <td>{{ row.tid }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>
+                        {% for item in row.titles %}
+                            <span>{{ item }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="/user/edit_teacher/?nid={{ row.tid }}">编辑</a>
+                        <a href="/user/del_teacher/?nid={{ row.tid }}">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
         </table>
     </div>
 {% endblock %}

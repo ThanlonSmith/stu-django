@@ -1,14 +1,23 @@
-<form action="/user/add_teacher/" method="post">
-    <div class="form-group">
-        <label>教师姓名：</label>
-        <input type="text" class="form-control" id="" placeholder="请输入教师的姓名" name="name">
-    </div>
-    <div class="form-group">
-        <select multiple class="form-control" name="class_ids">
-            {% for row in class_list %}
-                <option value="{{ row.id }}">{{ row.title }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">添加</button>
-</form>
+<table class="table table-hover text-center" style="background: white;margin-bottom: 0">
+    <tr>
+        <th class="text-center">ID</th>
+        <th class="text-center">教师姓名</th>
+        <th class="text-center">任教班级</th>
+        <th class="text-center">操作</th>
+    </tr>
+    {% for row in teacher_list %}
+        <tr>
+            <td>{{ row.tid }}</td>
+            <td>{{ row.name }}</td>
+            <td>
+                {% for item in row.titles %}
+                    <span>{{ item }}</span>
+                {% endfor %}
+            </td>
+            <td>
+                <a href="/user/edit_teacher/?nid={{ row.tid }}">编辑</a>
+                <a href="/user/del_teacher/?nid={{ row.tid }}">删除</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

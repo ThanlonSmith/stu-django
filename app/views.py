@@ -465,8 +465,42 @@ def add_teacher(request):
             data_list.append((teacher_id, class_id))
         obj.multiple_modify('insert into teacher2class(teacher_id,class_id) values (%s,%s)', data_list)
         obj.close()
-        return render(request, 'teacher.html')
+        return redirect('/user/teacher/')
 
 
 def teacher(request):
-    return render(request, 'teacher.html')
+    """
+    查询教师和任课班级信息
+    :param request:
+    :return:
+    """
+    obj = sqlhelper.SqlHelper()
+    teacher_list = obj.get_list(
+        'select teacher.id as tid,teacher.name,class.title from teacher left join teacher2class on teacher.id = teacher2class.teacher_id left join class on teacher2class.class_id = class.id ;',
+        [])
+    """
+    print(teacher_list)
+    [
+    {'tid': 1, 'name': '李娇', 'title': '网络工程'}, 
+    {'tid': 1, 'name': '李娇', 'title': '计算机科学与技术'},
+    {'tid': 1, 'name': '李娇', 'title': '软件技术'},
+    {'tid': 1, 'name': '李娇', 'title': '软件工程'},
+    {'tid': 2, 'name': '李晓', 'title': '网络工程'},
+    {'tid': 2, 'name': '李晓', 'title': '软件工程'}
+    ]
+    """
+    result = {}
+    for row in teacher_list:
+        tid = row['tid']
+        if tid in result:
+            result[tid]['titles'].append(row['title'])
+        else:
+            result[tid] = {'tid': row['tid'], 'name': row['name'], 'titles': [row['title'], ]}
+    """
+    print(ret)
+    {
+        1: {'tid': 1, 'name': '李娇', 'titles': ['网络工程', '计算机科学与技术', '软件技术', '软件工程']}, 
+        2: {'tid': 2, 'name': '李晓', 'titles': ['网络工程', '软件工程']}
+    }
+    """
+    return render(request, 'teacher.html', {'teacher_list': result.values()})
