@@ -34,6 +34,7 @@ urlpatterns = [
     path('user/add_student_modal/', views.add_student_modal),
     path('user/edit_student_modal/', views.edit_student_modal),
     path('user/del_student_modal/', views.del_student_modal),
-    path('user/add_teacher/', views.add_teacher),
     path('user/teacher/', views.teacher),
+    path('user/add_teacher/', views.add_teacher),
+    path('user/edit_teacher/', views.edit_teacher),
 ]

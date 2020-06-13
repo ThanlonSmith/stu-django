@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block css %}{% endblock %}
+{% block content %}
+    <ol class="breadcrumb">
+        <li class="active">教师管理</li>
+        <li class="active">编辑教师</li>
+    </ol>
+    <div class="container" style="margin-top: 20px">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form action="/user/edit_teacher/?nid={{ teacher_info.id }}" method="post">
+                    <div class="form-group">
+                        <label>教师姓名：</label>
+                        <input type="text" class="form-control" id="" placeholder="" name="name"
+                               value="{{ teacher_info.name }}">
+                    </div>
+                    <div class="form-group">
+                        <select multiple class="form-control" name="class_ids">
+                            {% for item in class_list %}
+                                {% if item.id in class_id_list %}
+                                    <option selected value="{{ item.id }}">{{ item.title }}</option>
+                                {% else %}
+                                    <option value="{{ item.id }}">{{ item.title }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">更新</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

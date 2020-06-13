@@ -504,3 +504,50 @@ def teacher(request):
     }
     """
     return render(request, 'teacher.html', {'teacher_list': result.values()})
+
+
+def edit_teacher(request):
+    if request.method == 'GET':
+        nid = request.GET.get('nid')
+        obj = sqlhelper.SqlHelper()
+        # 当前教师的信息
+        teacher_info = obj.get_one('select id,name from teacher where id = %s', [nid, ])
+        # 当前教师的任教班级的id信息
+        class_id_list = obj.get_list('select class_id from teacher2class where teacher_id=%s', [nid, ])
+        # 所有的班级信息
+        class_list = obj.get_list('select id,title from class', [])
+        """
+        print(teacher_list) # {'id': 2, 'name': '李晓'}
+        print(class_list) # [{'id': 1, 'title': '软件工程'}, {'id': 8, 'title': '软件技术'}, {'id': 9, 'title': '计算机科学与技术'}, {'id': 10, 'title': '网络工程'}]
+        print(class_id_list) # [{'class_id': 1}, {'class_id': 10}]
+        """
+        obj.close()
+        temp = []
+        for item in class_id_list:
+            temp.append(item['class_id'])
+        """
+        print(temp)  # [1, 10]
+        """
+        return render(request, 'edit_teacher.html',
+                      {'class_list': class_list, 'teacher_info': teacher_info, 'class_id_list': temp})
+    else:
+        # 获取post请求的url上的参数
+        nid = request.GET.get('nid')
+        print(nid)
+        name = request.POST.get('name')
+        class_ids = request.POST.getlist('class_ids')  # ['1', '8', '9', '10']
+        obj = sqlhelper.SqlHelper()
+        obj.modify('update teacher set name = %s where id = %s', [name, nid])
+        obj.modify('delete from teacher2class where teacher_id = %s', [nid])
+        data_list = []  # [('1', '1'), ('1', '8'), ('1', '9'), ('1', '10')]
+        """
+        for class_id in class_ids:
+            temp = (nid, class_id,)
+            data_list.append(temp)
+        """
+        # 使用lambda表达式
+        func = lambda nid, class_id: data_list.append((nid, class_id))
+        for class_id in class_ids:
+            func(nid, class_id)
+        obj.multiple_modify('insert into teacher2class(teacher_id,class_id) values (%s,%s)', data_list)
+        return redirect('/user/teacher/')
