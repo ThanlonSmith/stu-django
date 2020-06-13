@@ -432,3 +432,41 @@ def del_student_modal(request):
         ret['status'] = False
         ret['msg'] = str(e)
     return HttpResponse(json.dumps(ret))
+
+
+def add_teacher(request):
+    """
+    添加教师
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        class_list = sqlhelper.get_list('select id,title from class', [])
+        return render(request, 'add_teacher.html', {'class_list': class_list})
+    else:
+        name = request.POST.get('name')
+        obj = sqlhelper.SqlHelper()
+        teacher_id = obj.create('insert into teacher(name) values (%s)', [name, ])
+        class_ids = request.POST.getlist('class_ids')  # ['1', '8', '9', '10']
+        # 多次连接，多次提交
+        """
+        for class_id in class_ids:
+            sqlhelper.modify('insert into teacher2class(teacher_id,class_id) values (%s,%s)', [teacher_id, class_id])        
+        """
+        # 一次连接，多次提交
+        """
+        for class_id in class_ids:
+            obj.modify('insert into teacher2class(teacher_id,class_id) values (%s,%s)', [teacher_id, class_id])
+        obj.close()
+        """
+        # 一次连接，一次提交
+        data_list = []  # [(9, '8'), (9, '9'), (9, '10')]
+        for class_id in class_ids:
+            data_list.append((teacher_id, class_id))
+        obj.multiple_modify('insert into teacher2class(teacher_id,class_id) values (%s,%s)', data_list)
+        obj.close()
+        return render(request, 'teacher.html')
+
+
+def teacher(request):
+    return render(request, 'teacher.html')
